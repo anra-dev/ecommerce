@@ -1,6 +1,8 @@
 from django import template
 from django.utils.safestring import mark_safe
 
+from mainapp.models import Smartphone
+
 register = template.Library()
 
 TABLE_HEAD = """
@@ -42,9 +44,16 @@ PRODUCT_SPEC = {
 def get_product_spec(product, model_name):
     table_content = ''
     for name, value in PRODUCT_SPEC[model_name].items():
-        table_content += TABLE_CONTENT.format(name=name, value=getattr(product, value))
+        if not (name == 'Максимальный объем встраиваемой памяти' and not getattr(product, 'sd')):
+            # условие исключает максимальный объем SD карты если ее нет в наличии
+            table_content += TABLE_CONTENT.format(name=name, value=getattr(product, value))
     return table_content
 @register.filter
 def product_spec(product):
     model_name = product.__class__._meta.model_name
+    # print('first:', PRODUCT_SPEC)
+    # if isinstance(product, Smartphone):
+    #     if not product.sd:
+    #         PRODUCT_SPEC['smartphone'].pop('Максимальный объем встраиваемой памяти')
+    #         print('second:', PRODUCT_SPEC)
     return mark_safe(TABLE_HEAD + get_product_spec(product, model_name) + TABLE_TAIL)

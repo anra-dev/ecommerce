@@ -1,8 +1,17 @@
-from django.forms import ModelChoiceField, ModelForm, ValidationError
+from django.forms import ModelChoiceField, ModelForm
 from django.contrib import admin
 
 from .models import *
 
+class SmartphoneModelForm(ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = kwargs.get('instance')
+        if not instance.sd:
+            self.fields['sd_volume_max'].widget.attrs.update({
+                 'readonly': True, 'style': 'background: lightgray'
+            })
 
 class NotebookAdmin(admin.ModelAdmin):
 
@@ -13,6 +22,9 @@ class NotebookAdmin(admin.ModelAdmin):
 
 
 class SmartphoneAdmin(admin.ModelAdmin):
+
+    form = SmartphoneModelForm
+    change_form_template = 'admin.html'
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':
