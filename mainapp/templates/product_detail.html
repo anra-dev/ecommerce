@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load specifications %}
+
 {% block content %}
 
 <nav aria-label="breadcrumb" class="pt-3">
@@ -20,6 +22,9 @@
         <p>Описание: {{ product.description }}</p>
     </div>
     <p class="mt-4">Характеристики:</p>
+
+    {{ product|product_spec }}
+
     {% if product.category.slug  == 'notebooks' %}
         {% include 'notebook_specification.html' %}
     {% else %}
