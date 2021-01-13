@@ -18,8 +18,8 @@
       <th scope="row">{{ item.content_object.title }}</th>
       <td class="w-25"><img src="{{ item.content_object.image.url }}" class="img-fluid"></td>
       <td>{{ item.content_object.price }} руб.</td>
-      <td>{{ item.content_object.qty }}</td>
-      <td>{{ item.content_object.final_price }} руб.</td>
+      <td>{{ item.qty }}</td>
+      <td>{{ item.final_price }} руб.</td>
     </tr>
     {% endfor %}
   </tbody>
