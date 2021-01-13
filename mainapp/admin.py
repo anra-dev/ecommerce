@@ -8,7 +8,7 @@ class SmartphoneModelForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         instance = kwargs.get('instance')
-        if not instance.sd:
+        if instance and not instance.sd:
             self.fields['sd_volume_max'].widget.attrs.update({
                  'readonly': True, 'style': 'background: lightgray'
             })
@@ -35,8 +35,8 @@ class SmartphoneAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Notebook, NotebookAdmin)
 admin.site.register(Smartphone, SmartphoneAdmin)
-admin.site.register(CardProduct)
-admin.site.register(Card)
+admin.site.register(CartProduct)
+admin.site.register(Cart)
 admin.site.register(Customer)
 
 

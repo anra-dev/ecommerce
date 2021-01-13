@@ -1,8 +1,8 @@
 # *********
 # 1. Category
 # 2. Product
-# 3. CardProduct
-# 4. Card
+# 3. CartProduct
+# 4. Cart
 # 5. Order
 # *********
 # 6. Customer
@@ -75,7 +75,7 @@ class Category(models.Model):
 
     name = models.CharField(max_length=255, verbose_name='Имя категории')
     slug = models.SlugField(unique=True)
-    object = CategoryManager()
+    objects = CategoryManager()
 
     def __str__(self):
         return self.name
@@ -137,10 +137,10 @@ class Smartphone(Product):
         return get_product_url(self, 'product_detail')
 
   
-class CardProduct(models.Model):
+class CartProduct(models.Model):
 
     user = models.ForeignKey('Customer', verbose_name='Покупатель', on_delete=models.CASCADE)
-    card = models.ForeignKey('Card', verbose_name='Корзина', on_delete=models.CASCADE, related_name='related_product')
+    cart = models.ForeignKey('Cart', verbose_name='Корзина', on_delete=models.CASCADE, related_name='related_product')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', "object_id")
@@ -151,10 +151,10 @@ class CardProduct(models.Model):
         return "Продукт: {} (для корзины)".format(self.content_object.title)
 
 
-class Card(models.Model):
+class Cart(models.Model):
 
     owner = models.ForeignKey('Customer', verbose_name='Владелец', on_delete=models.CASCADE)
-    products = models.ManyToManyField(CardProduct, blank=True, related_name='related_card')
+    products = models.ManyToManyField(CartProduct, blank=True, related_name='related_cart')
     total_products = models.PositiveIntegerField(default=0)
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая цена')
     in_order = models.BooleanField(default=False)
