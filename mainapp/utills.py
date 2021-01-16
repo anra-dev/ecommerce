@@ -9,4 +9,4 @@ def recalc_cart(cart):
     else:
         cart.final_price = 0
     cart.total_products = cart_data['id__count']
-    cart.save
+    cart.save()
