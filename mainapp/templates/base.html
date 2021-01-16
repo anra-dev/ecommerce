@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -50,7 +50,7 @@
         <h1 class="my-4">AppleJAM</h1>
         <div class="list-group">
           {% for category in categories %}
-          <a href="{{ category.url }}" class="list-group-item">{{ category.name }}({{ category.count }})</a>
+          <a href="{{ category.get_absolute_url }}" class="list-group-item">{{ category.name }}({{ category.count }})</a>
           {% endfor %}
         </div>
 
@@ -108,7 +108,7 @@
                   <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
                 </h4>
                 <h5>{{ product.price }}</h5>
-                <a href="{% url 'add_to_cart' ct_model=product.get_model_name slug=product.slug  %}"><button class="btn btn-danger">Добавить в корзину</button></a>
+                <a href="{% url 'add_to_cart' slug=product.slug  %}"><button class="btn btn-danger">Добавить в корзину</button></a>
               </div>
             </div>
           </div>

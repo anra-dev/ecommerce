@@ -1,2 +1,5 @@
 /db.sqlite3
 /media/
+.idea/
+venv/
+
